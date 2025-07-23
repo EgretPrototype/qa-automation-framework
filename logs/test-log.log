@@ -1,0 +1,7 @@
+[2025-07-22 18:14:08] [INFO ] [CategoriesPageTest] - Starting setup
+[2025-07-22 18:14:11] [INFO ] [CategoriesPage] - Selecting category: Hand Tools
+[2025-07-22 18:14:11] [INFO ] [CategoriesPage] - Selecting category: Power Tools
+[2025-07-22 18:14:11] [INFO ] [CategoriesPage] - Selecting category: Other
+[2025-07-22 18:14:11] [INFO ] [CategoriesPage] - Selecting category: Special Tools
+[2025-07-22 18:14:11] [INFO ] [CategoriesPage] - Selecting category: Rentals
+[2025-07-22 18:14:14] [INFO ] [CategoriesPageTest] - Tearing down WebDriver
