@@ -21,8 +21,6 @@ public class WebDriverManager {
             switch (browser.toLowerCase()){
                 case "chrome":
                     ChromeOptions options = new ChromeOptions();
-
-                    // Check if running in GitHub Actions CI environment
                     String githubActions = System.getenv("GITHUB_ACTIONS");
                     boolean headless = githubActions != null && githubActions.equalsIgnoreCase("true");
                     if (headless) {
@@ -30,6 +28,8 @@ public class WebDriverManager {
                         options.addArguments("--no-sandbox");
                         options.addArguments("--disable-dev-shm-usage");
                         options.addArguments("--window-size=1920,1080");
+                        options.addArguments("--disable-gpu");
+                        options.addArguments("--remote-allow-origins=*");
                     }
                     driver = new ChromeDriver(options);
                     break;
