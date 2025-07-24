@@ -15,7 +15,7 @@ public class BaseTest {
     @BeforeMethod
     public void setUp() {
         logger.info("Starting setup");
-        WebDriver driver = WebDriverManager.getDriver();
+        driver = WebDriverManager.getDriver();
         driver.get(ConfigReader.get("url"));
     }
 

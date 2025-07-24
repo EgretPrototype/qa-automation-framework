@@ -2,6 +2,7 @@ package utils;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -19,7 +20,14 @@ public class WebDriverManager {
 
             switch (browser.toLowerCase()){
                 case "chrome":
-                    driver = new ChromeDriver();
+                    ChromeOptions options = new ChromeOptions();
+                    // Enable headless mode only when running in CI (like GitHub Actions)
+                    if (System.getenv("CI") != null) {
+                        options.addArguments("--headless=new");
+                        options.addArguments("--no-sandbox");
+                        options.addArguments("--disable-dev-shm-usage");
+                    }
+                    driver = new ChromeDriver(options);
                     break;
                 case "firefox":
                     driver = new FirefoxDriver();
@@ -29,6 +37,7 @@ public class WebDriverManager {
                     break;
                 case "safari":
                     driver = new SafariDriver();
+                    break;
                 default:
                     throw new RuntimeException("Unsupported browser: " + browser);
             }
