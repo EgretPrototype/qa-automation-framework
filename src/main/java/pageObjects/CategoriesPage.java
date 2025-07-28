@@ -5,9 +5,8 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.annotations.Listeners;
 import utils.WebDriverManager;
-@Listeners(utils.AllureTestListener.class)
+
 
 public class CategoriesPage extends BasePage {
 

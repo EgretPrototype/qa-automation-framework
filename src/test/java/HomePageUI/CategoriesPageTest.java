@@ -1,19 +1,22 @@
+package HomePageUI;
+
 import Base.BaseTest;
 import io.qameta.allure.*;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import pageObjects.CategoriesPage;
-@Listeners(utils.AllureTestListener.class)
+import utils.AllureTestListener;
 
 @Feature("Category Menu")
 public class CategoriesPageTest extends BaseTest {
 
-    @Test(description = "Verify categories")
+    @ExtendWith(AllureTestListener.class)
+    @Test
     @Description("Verifying the categories direct the user to the correct page when selected")
     public void verifyCategoriesMenu(){
         CategoriesPage categoriesPage = new CategoriesPage();
-        SoftAssert sa = new SoftAssert();
+        SoftAssertions sa = new SoftAssertions();
         categoriesPage.selectCategories();
         String[] productGroups = {"Hand Tools", "Power Tools", "Other", "Special Tools", "Rentals"};
         for (String category : productGroups){
@@ -23,7 +26,9 @@ public class CategoriesPageTest extends BaseTest {
             String expectedTitle = category.equals("Rentals")
                     ? "Rentals"
                     : "Category: " + category;
-            sa.assertEquals(actualTitle, expectedTitle, "Title mismatch for: " + category);
+            sa.assertThat(actualTitle)
+                    .as("Title mismatch for: " + category)
+                    .isEqualTo(expectedTitle);
             categoriesPage.selectCategories();
         }
         sa.assertAll();
