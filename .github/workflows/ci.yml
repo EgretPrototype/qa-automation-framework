@@ -10,6 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      docker:
+        image: docker:20.10.16
+        options: --privileged
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,6 +24,20 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+
+      - name: Set up Docker Compose
+        run: |
+          docker compose version
+
+      - name: Start Selenium Grid
+        run: docker compose up -d
+
+      - name: Wait for Selenium Grid to be ready
+        run: |
+          echo "Waiting for Selenium Grid..."
+          until curl -s http://localhost:4444/wd/hub/status | grep -q "true"; do
+            sleep 2
+          done
 
       - name: Grant execute permission for Gradle
         run: chmod +x ./gradlew

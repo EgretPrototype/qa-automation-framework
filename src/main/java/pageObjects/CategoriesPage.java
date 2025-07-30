@@ -11,10 +11,8 @@ import utils.WebDriverManager;
 public class CategoriesPage extends BasePage {
 
 
-
     public CategoriesPage() {
         super();
-        this.driver = WebDriverManager.getDriver();
     }
 
     private static final By CATEGORIES = By.linkText("Categories");
