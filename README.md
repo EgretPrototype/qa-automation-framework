@@ -2,29 +2,19 @@
 # QA Automation Framework
 
 ## Overview
-This is a Java-based test automation framework built with Selenium WebDriver, TestNG, Gradle, and Allure reporting.  
-It follows the Page Object Model (POM) pattern to ensure maintainable and scalable test code.
+A modular, scalable UI test automation framework built using **Java**, **Selenium**, and **JUnit 5**, with support for **Selenium Grid**, **Docker**, and **GitHub Actions CI**.
 
 ---
 
 ## Tech Stack
-- Java 21+
-- Selenium WebDriver 4.x
-- TestNG 7.x
-- Gradle build system
-- Allure Reports for test reporting
-- SLF4J + Log4j for logging
-
----
-
-## Features
-- Modular Page Object Model architecture
-- Configurable browser setup via properties file
-- Soft and hard assertions with TestNG
-- Automated screenshot capture on test failure (via Allure listener)
-- Allure reporting integrated with Gradle tasks
-- Logging with SLF4J
-- Sample test cases for category navigation and page title validation
+- **Language**: Java 21
+- **Build Tool**: Gradle
+- **Test Framework**: JUnit 5
+- **Browser Automation**: Selenium WebDriver
+- **Remote Execution**: Selenium Grid (via Docker)
+- **CI/CD**: GitHub Actions
+- **Logging**: SLF4J + Logback
+- **Reporting**: Allure Reports
 
 ---
 
@@ -39,7 +29,7 @@ It follows the Page Object Model (POM) pattern to ensure maintainable and scalab
 
 1. Clone the repo:
    ```
-   git clone https://github.com/YOUR-USERNAME/qa-automation-framework.git
+   git clone https://github.com/EgretPrototype/qa-automation-framework.git
    cd qa-automation-framework
    
 2. Run tests with Gradle:
@@ -50,7 +40,54 @@ It follows the Page Object Model (POM) pattern to ensure maintainable and scalab
    ```
    ./gradlew allureReport
    ./gradlew allureServe
+   
+4. Update config.properties to set:
+   ```
+   browser=chrome
+   remote=false
+   remoteUrl=http://localhost:4444/wd/hub
+   
+## Remote Execution with Selenium Grid
 
+1. Start Grid using Docker:
+   ```
+   docker-compose -f docker-compose.yml up -d\
+2. Update config.properties:
+   ```
+   remote=true
+   browser=chrome
+   remoteUrl=http://localhost:4444/wd/hub
+3. Run your tests:
+   ```
+   ./gradlew clean test
+## Docker Compose Grid
+```
+# docker-compose.yml
+
+services:
+  selenium-hub:
+    image: selenium/hub:4.21.0
+    ports:
+      - "4444:4444"
+
+  chrome:
+    image: selenium/node-chrome:4.21.0
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+
+  firefox:
+    image: selenium/node-firefox:4.21.0
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+```
 ## Project Structure
 ```src/
 ├── main/
